@@ -9,9 +9,8 @@ public class MainClass {
 
 		while(true) {
 			System.out.println("Welcome to connect4 \nSelect game type");
-			System.out.println("Enter 1 for Player vs. Computer");
-			System.out.println("Enter 2 for Player vs. Player");
-			System.out.println("Enter 3 to Exit");
+			System.out.println("Enter 1 for Player vs. Player");
+			System.out.println("Enter 2 to Exit");
 
 			char [][]connect4 = new char[7][14];
 			connect4 = initializeBoard();
@@ -21,18 +20,12 @@ public class MainClass {
 			switch(choice) {
 
 			case 1:
-				//Player vs. Computer
-				System.out.println("Starting game");
-				pcVsPlayer(connect4, input);
-				break;
-
-			case 2:
 				//Player vs. Player
 				System.out.println("Starting game");
 				twoPlayers(connect4, input);
 				break;
 
-			case 3:
+			case 2:
 				return;
 
 			default:
@@ -44,79 +37,6 @@ public class MainClass {
 		}
 
 
-	}
-
-	public static void pcVsPlayer(char[][] connect4, Scanner input) {
-		
-		printCurrentGameState(connect4);
-		int move;
-
-		//is the move valid
-		boolean isValid = false;
-
-		//has the game ended
-		boolean isEnded = false;
-
-		//check if there is no available moves and this after reaching 42 moves
-		//then there is no winner and it is a withdraw
-		int countMoves = 0;
-
-		//as long as the game hasn't ended
-		while(!isEnded || countMoves!=42) {
-
-			isValid = false;
-			System.out.print("Computer: ");
-			//the computer has to make a valid move
-			//it will only print the move if it is valid
-			while(!isValid) {
-				Random rand = new Random();
-				move =  rand.nextInt(7) + 1;
-				
-				//if it is a valid move
-				if(validateMove(connect4, move)) {
-					System.out.println(move);
-					isValid = true;
-					connect4 = placeMove(connect4, move, 'x', 1);
-					countMoves++;
-					printCurrentGameState(connect4);
-				}
-
-			}
-			
-
-			isValid = false;
-			//as long as the player move is valid
-			while(!isValid) {
-				System.out.print("Player: ");
-				move = input.nextInt();
-				System.out.println();
-
-				//if it is a valid move
-				if(validateMove(connect4, move)) {
-
-					isValid = true;
-					connect4 = placeMove(connect4, move, 'o', 1);
-					//					isEnded = checkIsWinner(connect4, move);
-
-					//end game because we got a winner
-					//					if(isEnded) {
-					//						return;
-					//					}
-
-					countMoves++;
-					printCurrentGameState(connect4);
-				}
-				else {
-					System.out.println("Invalid place, play again");
-				}
-			}
-		}
-
-		if(countMoves==42) {
-			System.out.println("Withdraw");
-			return;
-		}
-		
 	}
 
 	public static void twoPlayers(char[][] connect4, Scanner input) {
